@@ -1,0 +1,19 @@
+<Solution>
+  <Project Path="AgendaPro.API/AgendaPro.API.csproj">
+    <BuildDependency Project="AgendaPro.Application/AgendaPro.Application.csproj" />
+    <BuildDependency Project="AgendaPro.Infrastructure/AgendaPro.Infrastructure.csproj" />
+  </Project>
+  <Project Path="AgendaPro.Application/AgendaPro.Application.csproj" Id="9f866009-a46f-4f1b-8c25-054cf8c7994c">
+    <BuildDependency Project="AgendaPro.Domain/AgendaPro.Domain.csproj" />
+  </Project>
+  <Project Path="AgendaPro.Domain/AgendaPro.Domain.csproj" Id="427b012d-e1d2-4fd4-9609-22582967dc75" />
+  <Project Path="AgendaPro.Infrastructure/AgendaPro.Infrastructure.csproj" Id="498b4c86-8485-4c17-8280-9015480dcda1">
+    <BuildDependency Project="AgendaPro.Application/AgendaPro.Application.csproj" />
+    <BuildDependency Project="AgendaPro.Domain/AgendaPro.Domain.csproj" />
+  </Project>
+  <Project Path="AgendaPro.Tests/AgendaPro.Tests.csproj" Id="d9902b08-6626-404f-8270-f913486738e6">
+    <BuildDependency Project="AgendaPro.API/AgendaPro.API.csproj" />
+    <BuildDependency Project="AgendaPro.Application/AgendaPro.Application.csproj" />
+    <BuildDependency Project="AgendaPro.Domain/AgendaPro.Domain.csproj" />
+  </Project>
+</Solution>
