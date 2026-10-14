@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AgendaPro.Application\AgendaPro.Application.csproj" />
     <ProjectReference Include="..\AgendaPro.Infrastructure\AgendaPro.Infrastructure.csproj" />
   </ItemGroup>
 

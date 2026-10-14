@@ -10,7 +10,6 @@ namespace AgendaPro.Application.DTOs.AgendamentoDTO
         public int idProfissional {  get; set; }
         public int idServico {  get; set; }
         public TimeSpan dataHoraInicio {  get; set; }
-        public TimeSpan dataHoraFim {  get; set; }
         public decimal precoAplicado {  get; set; }
         public string? observacao {  get; set; }
     }

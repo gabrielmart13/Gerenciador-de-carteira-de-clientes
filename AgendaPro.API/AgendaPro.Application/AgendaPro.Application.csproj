@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AgendaPro.Domain\AgendaPro.Domain.csproj" />
+    <ProjectReference Include="..\AgendaPro.Infrastructure\AgendaPro.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

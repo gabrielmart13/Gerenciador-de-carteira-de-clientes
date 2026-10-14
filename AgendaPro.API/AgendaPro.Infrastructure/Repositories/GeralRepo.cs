@@ -35,7 +35,7 @@ namespace AgendaPro.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<List<T>> PegarTodos<T>(T entity) where T : class
+        public async Task<List<T>> PegarTodos<T>() where T : class
         {
             var entities = await _dataContext.Set<T>().ToListAsync();
             return entities;
