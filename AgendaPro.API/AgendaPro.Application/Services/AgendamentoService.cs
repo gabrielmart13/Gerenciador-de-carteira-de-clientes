@@ -1,4 +1,5 @@
-﻿using AgendaPro.Application.DTOs.AgendamentoDTO;
+﻿using AgendaPro.Application.Exceptions;
+using AgendaPro.Application.DTOs.AgendamentoDTO;
 using AgendaPro.Application.Interfaces;
 using AgendaPro.Domain.Models;
 using AgendaPro.Infrastructure.Repositories.Interfaces;
@@ -30,15 +31,15 @@ namespace AgendaPro.Application.Services
 
             if (request == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("os dados para atualizar sao nulos");
             }
             if (request.dataHoraInicio <= TimeSpan.Zero)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("O horario de inicio não pode ser menor que 0");
             }
             if (duracao > profissional.horaFinal)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("O agendamento não pode acabar apos o horario de trabalho do funcionario");
             }
 
             foreach (Agendamento a in agendamentos)
@@ -49,7 +50,7 @@ namespace AgendaPro.Application.Services
                     {
                         if (a.dataHoraFim > request.dataHoraInicio && a.dataHoraInicio < duracao)
                         {
-                            throw new NotImplementedException();
+                            throw new ConflictException("O profissional não pode ter 2 agendamentos no mesmo horario");
                         }
                     }
 
@@ -76,15 +77,15 @@ namespace AgendaPro.Application.Services
 
             if(request == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("os dados para atualizar sao nulos");
             }
             if (request.dataHoraInicio <= TimeSpan.Zero)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("O horario de inicio não pode ser menor que 0");
             }
             if(duracao > profissional.horaFinal)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("O agendamento não pode acabar apos o horario de trabalho do funcionario");
             }
             foreach (Agendamento a in agendamentos)
             {
@@ -92,7 +93,7 @@ namespace AgendaPro.Application.Services
                 {
                     if(a.dataHoraFim > request.dataHoraInicio && a.dataHoraInicio < duracao)
                     {
-                        throw new NotImplementedException();
+                        throw new ConflictException("O profissional não pode ter 2 agendamentos no mesmo horario");
                     }
                 }
             }
@@ -120,7 +121,7 @@ namespace AgendaPro.Application.Services
             var agendamento = await _geralrepo.PegarPorId<Agendamento>(id);
             if (agendamento == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o agendamento nao existe");
             }
 
             agendamento.status = "Cancelado";
@@ -134,7 +135,7 @@ namespace AgendaPro.Application.Services
             var agendamento = await _geralrepo.PegarPorId<Agendamento>(id);
             if(agendamento == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o agendamento nao existe");
             }
 
             return agendamento;
@@ -145,7 +146,7 @@ namespace AgendaPro.Application.Services
             var agendamentos = await _geralrepo.PegarTodos<Agendamento>();
             if(agendamentos == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o agendamento nao existe");
             }
 
             return agendamentos;

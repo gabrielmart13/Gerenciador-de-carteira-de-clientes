@@ -1,4 +1,5 @@
-﻿using AgendaPro.Application.DTOs.ClienteDTO;
+﻿using AgendaPro.Application.Exceptions;
+using AgendaPro.Application.DTOs.ClienteDTO;
 using AgendaPro.Application.Interfaces;
 using AgendaPro.Domain.Models;
 using AgendaPro.Infrastructure.Repositories.Interfaces;
@@ -21,7 +22,7 @@ namespace AgendaPro.Application.Services
             var cliente = await _geralrepo.PegarPorId<Cliente>(id);
             if (cliente == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o cliente nao existe");
             }
             cliente.telefone = request.telefone;
             cliente.nome = request.nome;
@@ -33,17 +34,17 @@ namespace AgendaPro.Application.Services
 
         public async Task<Cliente> CriarCliente(CriarClienteRequest request)
         {
-            if(request ==  null)
+            if (request == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("os dados para criar sao nulos");
             }
             var clientes = await _geralrepo.PegarTodos<Cliente>();
             foreach (Cliente c in clientes)
             {
                 //Lançando uma excessao em caso de email que ja existe
-                if(c.email == request.email)
+                if (c.email == request.email)
                 {
-                    throw new NotImplementedException();
+                    throw new ConflictException("o email ja existe");
                 }
             }
             var cliente = new Cliente
@@ -62,9 +63,9 @@ namespace AgendaPro.Application.Services
         public async Task<Cliente> DeletarCliente(int id)
         {
             var cliente = await _geralrepo.PegarPorId<Cliente>(id);
-            if(cliente == null)
+            if (cliente == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o cliente nao existe");
             }
 
             cliente.ativo = false; //Desativando o cliente, de forma que no front ele pareça deletado
@@ -75,9 +76,9 @@ namespace AgendaPro.Application.Services
         public async Task<Cliente> PegarClienteId(int id)
         {
             var cliente = await _geralrepo.PegarPorId<Cliente>(id);
-            if(cliente == null)
+            if (cliente == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o cliente nao existe");
             }
             return cliente;
         }
@@ -85,9 +86,9 @@ namespace AgendaPro.Application.Services
         public async Task<List<Cliente>> PegarClientes()
         {
             var clientes = await _geralrepo.PegarTodos<Cliente>();
-            if(clientes == null)
+            if (clientes == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o cliente nao existe");
             }
 
             return clientes;

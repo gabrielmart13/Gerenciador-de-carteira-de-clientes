@@ -1,4 +1,6 @@
-﻿using AgendaPro.Domain.Models;
+﻿using AgendaPro.Domain.Entities;
+using AgendaPro.Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Text;
 
 namespace AgendaPro.Infrastructure
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<Usuario>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 

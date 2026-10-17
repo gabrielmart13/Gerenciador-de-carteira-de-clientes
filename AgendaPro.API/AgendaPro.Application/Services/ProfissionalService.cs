@@ -1,4 +1,5 @@
-﻿using AgendaPro.Application.DTOs.ProfissionalDTO;
+﻿using AgendaPro.Application.Exceptions;
+using AgendaPro.Application.DTOs.ProfissionalDTO;
 using AgendaPro.Application.Interfaces;
 using AgendaPro.Domain.Models;
 using AgendaPro.Infrastructure.Repositories.Interfaces;
@@ -19,15 +20,15 @@ namespace AgendaPro.Application.Services
         {
             if (request == null)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("os dados para atualizar o profissional sao nulos");
             }
             if (request.horaInicio <= TimeSpan.Zero || request.horaFim <= TimeSpan.Zero)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("O horario de inicio e de fim devem ser maiores que 0");
             }
             if (request.horaInicio >= request.horaFim)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("O horario de inicio deve ser anterior ao horario de fim");
             }
 
             var profissionais = await _geralrepo.PegarTodos<Profissional>();
@@ -36,11 +37,11 @@ namespace AgendaPro.Application.Services
                 //Lançando uma excessao em caso de email que ja existe
                 if (p.email == request.email)
                 {
-                    throw new NotImplementedException();
+                    throw new ConflictException("o email ja existe");
                 }
                 if (p.telefone == request.telefone)
                 {
-                    throw new NotImplementedException();
+                    throw new ConflictException("o telefone ja existe");
                 }
             }
 
@@ -58,19 +59,19 @@ namespace AgendaPro.Application.Services
 
         public async Task<Profissional> CriarProfissional(CriarProfissionalRequest request)
         {
-            if(request == null)
+            if (request == null)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("os dados para criar o profissional sao nulos");
             }
-            if(request.horaInicio <= TimeSpan.Zero || request.horaFim <= TimeSpan.Zero)
+            if (request.horaInicio <= TimeSpan.Zero || request.horaFim <= TimeSpan.Zero)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("O horario de inicio e de fim devem ser maiores que 0");
             }
-            if(request.horaInicio >= request.horaFim)
+            if (request.horaInicio >= request.horaFim)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("O horario de inicio deve ser anterior ao horario de fim");
             }
-            
+
 
             var profissionais = await _geralrepo.PegarTodos<Profissional>();
             foreach (Profissional p in profissionais)
@@ -78,11 +79,11 @@ namespace AgendaPro.Application.Services
                 //Lançando uma excessao em caso de email que ja existe
                 if (p.email == request.email)
                 {
-                    throw new NotImplementedException();
+                    throw new ConflictException("o email ja existe");
                 }
-                if(p.telefone == request.telefone)
+                if (p.telefone == request.telefone)
                 {
-                    throw new NotImplementedException();
+                    throw new ConflictException("o telefone ja existe");
                 }
             }
 
@@ -107,7 +108,7 @@ namespace AgendaPro.Application.Services
             var profissional = await _geralrepo.PegarPorId<Profissional>(id);
             if (profissional == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o profissional nao existe");
             }
 
             profissional.ativo = false;
@@ -119,9 +120,9 @@ namespace AgendaPro.Application.Services
         public async Task<Profissional> PegarProfissionalId(int id)
         {
             var profissional = await _geralrepo.PegarPorId<Profissional>(id);
-            if(profissional == null)
+            if (profissional == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o profissional nao existe");
             }
             return profissional;
         }
@@ -131,7 +132,7 @@ namespace AgendaPro.Application.Services
             var profissionais = await _geralrepo.PegarTodos<Profissional>();
             if (profissionais == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("nenhum profissional encontrado");
             }
             return profissionais;
 

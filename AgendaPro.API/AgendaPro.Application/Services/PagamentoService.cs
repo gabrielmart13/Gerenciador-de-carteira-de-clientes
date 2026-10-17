@@ -1,4 +1,5 @@
-﻿using AgendaPro.Application.DTOs.PagamentoDTO;
+﻿using AgendaPro.Application.Exceptions;
+using AgendaPro.Application.DTOs.PagamentoDTO;
 using AgendaPro.Application.Interfaces;
 using AgendaPro.Domain.Models;
 using AgendaPro.Infrastructure.Repositories.Interfaces;
@@ -21,16 +22,16 @@ namespace AgendaPro.Application.Services
 
             if (request == null)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("os dados para atualizar o pagamento sao nulos");
             }
             if (request.dataPagamento == null)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("a data do pagamento nao pode ser nula");
             }
             var agendamento = await _geralrepo.PegarPorId<Agendamento>(request.idAgendamento);
-            if(agendamento == null)
+            if (agendamento == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o agendamento nao existe");
             }
 
             pagamento.valor = agendamento.precoAplicado;
@@ -45,18 +46,18 @@ namespace AgendaPro.Application.Services
 
         public async Task<Pagamento> CriarPagamento(CriarPagamentoRequest request)
         {
-            if(request == null)
+            if (request == null)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("os dados para criar o pagamento sao nulos");
             }
-            if(request.dataPagamento == null)
+            if (request.dataPagamento == null)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("a data do pagamento nao pode ser nula");
             }
             var agendamento = await _geralrepo.PegarPorId<Agendamento>(request.idAgendamento);
-            if(agendamento == null)
+            if (agendamento == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o agendamento nao existe");
             }
             var pagamento = new Pagamento
             {
@@ -74,9 +75,9 @@ namespace AgendaPro.Application.Services
         public async Task<Pagamento> PegarPagamentoId(int id)
         {
             var pagamento = await _geralrepo.PegarPorId<Pagamento>(id);
-            if(pagamento == null)
+            if (pagamento == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o pagamento nao existe");
             }
             return pagamento;
         }
@@ -84,9 +85,9 @@ namespace AgendaPro.Application.Services
         public async Task<List<Pagamento>> PegarPagamentos()
         {
             var pagamentos = await _geralrepo.PegarTodos<Pagamento>();
-            if(pagamentos == null) 
+            if (pagamentos == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("nenhum pagamento encontrado");
             }
             return pagamentos;
         }

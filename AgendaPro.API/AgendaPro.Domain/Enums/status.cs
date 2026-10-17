@@ -1,6 +1,6 @@
 ﻿namespace AgendaPro.Domain.Enums
 {
-    public static class status
+    public static class Status
     {
 
         public const string Pendente = "Pendente";

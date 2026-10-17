@@ -1,4 +1,5 @@
-﻿using AgendaPro.Application.DTOs.ServicoDTO;
+﻿using AgendaPro.Application.Exceptions;
+using AgendaPro.Application.DTOs.ServicoDTO;
 using AgendaPro.Application.Interfaces;
 using AgendaPro.Domain.Models;
 using AgendaPro.Infrastructure.Repositories.Interfaces;
@@ -19,27 +20,27 @@ namespace AgendaPro.Application.Services
         {
             if (request == null)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("os dados para atualizar o servico sao nulos");
             }
             if (request.duracaoMinutos <= TimeSpan.Zero)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("a duracao do servico deve ser maior que 0");
             }
             if (request.preco < 0)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("o preco do servico nao pode ser negativo");
             }
             var servicos = await _geralrepo.PegarTodos<Servico>();
             foreach (Servico s in servicos)
             {
                 if (s.nome == request.nome)
                 {
-                    throw new NotImplementedException();
+                    throw new ConflictException("ja existe um servico com esse nome");
                 }
             }
 
             var servico = await _geralrepo.PegarPorId<Servico>(id);
-            
+
 
             servico.duracaoMinutos = request.duracaoMinutos;
             servico.preco = request.preco;
@@ -55,22 +56,22 @@ namespace AgendaPro.Application.Services
         {
             if (request == null)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("os dados para criar o servico sao nulos");
             }
             if (request.duracaoMinutos <= TimeSpan.Zero)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("a duracao do servico deve ser maior que 0");
             }
             if (request.preco < 0)
             {
-                throw new NotImplementedException();
+                throw new ValidationException("o preco do servico nao pode ser negativo");
             }
             var servicos = await _geralrepo.PegarTodos<Servico>();
             foreach (Servico s in servicos)
             {
-                if(s.nome ==  request.nome)
+                if (s.nome == request.nome)
                 {
-                    throw new NotImplementedException();
+                    throw new ConflictException("ja existe um servico com esse nome");
                 }
             }
 
@@ -90,9 +91,9 @@ namespace AgendaPro.Application.Services
         public async Task<Servico> DeletarServico(int id)
         {
             var servico = await _geralrepo.PegarPorId<Servico>(id);
-            if(servico == null)
+            if (servico == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o servico nao existe");
             }
 
             servico.ativo = false;
@@ -103,9 +104,9 @@ namespace AgendaPro.Application.Services
         public async Task<Servico> PegarServicoId(int id)
         {
             var servico = await _geralrepo.PegarPorId<Servico>(id);
-            if(servico == null)
+            if (servico == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("o servico nao existe");
             }
 
             return servico;
@@ -116,7 +117,7 @@ namespace AgendaPro.Application.Services
             var servicos = await _geralrepo.PegarTodos<Servico>();
             if (servicos == null)
             {
-                throw new NotImplementedException();
+                throw new NotFoundException("nenhum servico encontrado");
             }
 
             return servicos;

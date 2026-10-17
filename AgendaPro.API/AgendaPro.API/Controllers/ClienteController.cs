@@ -4,7 +4,7 @@ using AgendaPro.Application.Services;
 using AgendaPro.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AgendaPro.API.Controllers
+namespace AgendaPro.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
